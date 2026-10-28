@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday พลอย</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600&family=Playfair+Display:ital,wght@1,400;1,700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --pink:      #f9a8c9;
+      --pink-deep: #e05c8a;
+      --pink-pale: #fff0f6;
+      --pink-soft: #fde0ec;
+      --white:     #ffffff;
+      --text:      #3d1f2e;
+      --text-soft: #a06080;
+      --radius:    20px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Sarabun', sans-serif;
+      background: var(--pink-pale);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── SVG ICON BASE ── */
+    .icon {
+      display: inline-block;
+      vertical-align: middle;
+      flex-shrink: 0;
+    }
+    .icon svg { display: block; }
+
+    /* ── PAGE ── */
+    .page {
+      max-width: 620px;
+      margin: 0 auto;
+      padding: 64px 20px 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 56px;
+      align-items: center;
+    }
+
+    /* ── HERO ── */
+    .hero { text-align: center; }
+    .hero .eyebrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--pink-deep);
+      margin-bottom: 18px;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(2.8rem, 8vw, 4.4rem);
+      color: var(--text);
+      line-height: 1.1;
+    }
+    .hero h1 em { color: var(--pink-deep); font-style: italic; }
+    .hero .date {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 14px;
+      font-size: 0.88rem;
+      color: var(--text-soft);
+      letter-spacing: 0.08em;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      width: 48px; height: 1.5px;
+      background: var(--pink);
+      border: none; border-radius: 2px;
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: 0 2px 24px rgba(224,92,138,0.07);
+      width: 100%;
+    }
+
+    /* ════════════════════════════════════════
+       PHOTO CLUSTER
+    ════════════════════════════════════════ */
+    .cluster-section { width: 100%; }
+    .cluster-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      margin-bottom: 20px;
+    }
+    .cluster-wrap {
+      position: relative;
+      width: 220px; height: 220px;
+      margin: 0 auto 18px;
+      cursor: pointer;
+    }
+    .cluster-wrap:hover .cluster-card,
+    .cluster-wrap.spread .cluster-card { box-shadow: 0 12px 40px rgba(224,92,138,0.22); }
+    .cluster-card {
+      position: absolute; inset: 0;
+      border-radius: 18px; overflow: hidden;
+      background: var(--pink-soft);
+      box-shadow: 0 6px 24px rgba(224,92,138,0.14);
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s;
+    }
+    .cluster-card img { width:100%; height:100%; object-fit:cover; display:block; pointer-events:none; }
+    .cluster-card:nth-child(1) { transform: rotate(-8deg)  translate(-14px, 8px);  z-index:1; }
+    .cluster-card:nth-child(2) { transform: rotate( 5deg)  translate( 10px,-6px);  z-index:2; }
+    .cluster-card:nth-child(3) { transform: rotate(-3deg)  translate(  4px, 4px);  z-index:3; }
+    .cluster-card:nth-child(4) { transform: rotate( 9deg)  translate( -8px,-10px); z-index:4; }
+    .cluster-card:nth-child(5) { transform: rotate(-6deg)  translate( 12px, 2px);  z-index:5; }
+    .cluster-card.top { transform: rotate(0deg) translate(0,0) !important; z-index:10 !important; }
+    .cluster-wrap:hover .cluster-card:nth-child(1),
+    .cluster-wrap.spread .cluster-card:nth-child(1) { transform: rotate(-12deg) translate(-28px, 12px); }
+    .cluster-wrap:hover .cluster-card:nth-child(2),
+    .cluster-wrap.spread .cluster-card:nth-child(2) { transform: rotate(  8deg) translate( 22px,-14px); }
+    .cluster-wrap:hover .cluster-card:nth-child(3),
+    .cluster-wrap.spread .cluster-card:nth-child(3) { transform: rotate( -5deg) translate(  8px, 18px); }
+    .cluster-wrap:hover .cluster-card:nth-child(4),
+    .cluster-wrap.spread .cluster-card:nth-child(4) { transform: rotate( 13deg) translate(-18px,-18px); }
+    .cluster-wrap:hover .cluster-card:nth-child(5),
+    .cluster-wrap.spread .cluster-card:nth-child(5) { transform: rotate( -9deg) translate( 26px, 8px); }
+    .cluster-wrap:hover .cluster-card.top,
+    .cluster-wrap.spread .cluster-card.top { transform: scale(1.04) rotate(0deg) !important; }
+    .cluster-hint {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-soft);
+    }
+
+    /* ════════════════════════════════════════
+       LIGHTBOX
+    ════════════════════════════════════════ */
+    .lightbox {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(40,10,25,0.88);
+      z-index: 900;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(10px);
+    }
+    .lightbox.show { display: flex; }
+    .lb-topbar {
+      position: fixed; top:0; left:0; right:0;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 20px; z-index: 10;
+    }
+    .lb-counter { font-size:0.8rem; color:rgba(255,255,255,0.7); letter-spacing:0.1em; }
+    .lb-close {
+      background: rgba(255,255,255,0.14); border:none; border-radius:50%;
+      width:40px; height:40px; color:#fff; cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      transition: background 0.2s;
+    }
+    .lb-close:hover { background: rgba(255,255,255,0.28); }
+    .lb-img-wrap {
+      flex:1; display:flex; align-items:center; justify-content:center;
+      width:100%; padding:60px 60px 0;
+    }
+    .lb-img-wrap img {
+      max-width:100%; max-height:65vh;
+      border-radius:16px; object-fit:contain;
+      box-shadow:0 20px 60px rgba(0,0,0,0.5);
+      animation: lbIn 0.3s cubic-bezier(0.34,1.56,0.64,1) both; display:block;
+    }
+    @keyframes lbIn { from{opacity:0;transform:scale(0.88)} to{opacity:1;transform:scale(1)} }
+    .lb-arrow {
+      position:fixed; top:50%; transform:translateY(-50%);
+      background:rgba(255,255,255,0.13); border:none; border-radius:50%;
+      width:48px; height:48px; color:#fff; cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      transition:background 0.2s; z-index:10;
+    }
+    .lb-arrow:hover { background:rgba(255,255,255,0.26); }
+    .lb-arrow.prev { left:14px; }
+    .lb-arrow.next { right:14px; }
+    .lb-bottom {
+      width:100%; padding:16px 20px 24px;
+      display:flex; flex-direction:column; align-items:center; gap:14px;
+    }
+    .lb-rating { display:flex; align-items:center; gap:10px; }
+    .lb-rating-label { font-size:0.75rem; color:rgba(255,255,255,0.55); }
+    .lb-stars { display:flex; gap:8px; }
+    .lb-star {
+      cursor:pointer; color: rgba(255,255,255,0.3);
+      transition: transform 0.15s, color 0.15s;
+    }
+    .lb-star svg { display:block; }
+    .lb-star.lit { color: #fbbf24; }
+    .lb-star:hover { transform:scale(1.3); }
+    .lb-rating-text { font-size:0.78rem; color:var(--pink); min-width:120px; font-weight:600; }
+    .lb-thumbs {
+      display:flex; gap:8px; overflow-x:auto; scrollbar-width:none;
+      padding:2px 4px; max-width:100%;
+    }
+    .lb-thumbs::-webkit-scrollbar { display:none; }
+    .lb-thumb {
+      flex-shrink:0; width:52px; height:52px; border-radius:10px;
+      overflow:hidden; cursor:pointer; border:2.5px solid transparent;
+      transition:border-color 0.2s, transform 0.2s, opacity 0.2s; opacity:0.55;
+    }
+    .lb-thumb img { width:100%; height:100%; object-fit:cover; }
+    .lb-thumb.active { border-color:var(--pink); opacity:1; transform:scale(1.08); }
+    .lb-thumb:hover:not(.active) { opacity:0.85; }
+
+    /* ════════════════════════════════════════
+       CAKE
+    ════════════════════════════════════════ */
+    .cake-card { padding:40px 24px 36px; text-align:center; }
+    .cake-section-label {
+      display:flex; align-items:center; justify-content:center; gap:7px;
+      font-size:0.72rem; letter-spacing:0.2em; text-transform:uppercase;
+      color:var(--text-soft); margin-bottom:28px;
+    }
+    .candles-row {
+      display:flex; justify-content:center; gap:18px; margin-bottom:10px;
+      align-items: flex-end;
+    }
+    .candle { display:flex; flex-direction:column; align-items:center; gap:4px; }
+    /* flame icon */
+    .flame-icon {
+      color: #fb923c;
+      animation: flicker 0.5s ease-in-out infinite alternate;
+      transition: opacity 0.5s, transform 0.5s;
+    }
+    .flame-icon.out { opacity:0; transform:scale(0) translateY(8px); }
+    @keyframes flicker {
+      from { transform:scale(1) rotate(-2deg); }
+      to   { transform:scale(1.12) rotate(2deg); }
+    }
+    /* candle body */
+    .candle-stick { color: var(--pink); }
+
+    .cake-img {
+      display:block;
+      width: 300px; height: 300px;
+      margin: 0 auto 8px;
+      object-fit: contain;
+      animation: floatY 2.8s ease-in-out infinite;
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.15s;
+      filter: drop-shadow(0 10px 28px rgba(224,92,138,0.28));
+    }
+    .cake-img:active { transform:scale(0.93); }
+    @keyframes floatY { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+
+    .blow-hint {
+      display:flex; align-items:center; justify-content:center; gap:6px;
+      font-size:0.83rem; color:var(--text-soft); transition:opacity 0.4s;
+    }
+    .blow-hint.gone { opacity:0; pointer-events:none; }
+    .wish-msg {
+      display:flex; align-items:center; justify-content:center; gap:6px;
+      font-size:1rem; color:var(--pink-deep); font-weight:600;
+      opacity:0; transform:scale(0.85);
+      transition:all 0.55s cubic-bezier(0.34,1.56,0.64,1); margin-top:6px;
+    }
+    .wish-msg.show { opacity:1; transform:scale(1); }
+
+    /* ════════════════════════════════════════
+       ENVELOPE / LETTER
+    ════════════════════════════════════════ */
+    .envelope-card { overflow:hidden; }
+    .envelope-btn {
+      width:100%; padding:40px 24px;
+      background:none; border:none; cursor:pointer;
+      display:flex; flex-direction:column; align-items:center; gap:14px;
+      transition:background 0.2s;
+    }
+    .envelope-btn:hover { background:var(--pink-soft); }
+    .envelope-icon-wrap {
+      color: var(--pink-deep);
+      transition: transform 0.3s;
+    }
+    .envelope-btn:hover .envelope-icon-wrap { transform:translateY(-4px); }
+    .envelope-label { font-size:0.82rem; color:var(--text-soft); letter-spacing:0.1em; }
+    .letter-body {
+      display:none; padding:32px 30px 36px;
+      border-top:1px solid var(--pink-soft);
+      animation:slideDown 0.45s ease both;
+    }
+    .letter-body.open { display:block; }
+    @keyframes slideDown { from{opacity:0;transform:translateY(-12px)} to{opacity:1;transform:translateY(0)} }
+    .letter-from {
+      display:flex; align-items:center; gap:7px;
+      font-size:0.72rem; letter-spacing:0.18em;
+      text-transform:uppercase; color:var(--pink); margin-bottom:22px;
+    }
+    .letter-body p { font-size:1rem; line-height:2; color:var(--text); font-weight:300; min-height:1.8em; }
+    .letter-body p+p { margin-top:12px; }
+    .letter-sig {
+      display:flex; align-items:center; justify-content:flex-end; gap:8px;
+      margin-top:28px;
+      font-family:'Playfair Display',serif; font-style:italic;
+      font-size:1.25rem; color:var(--pink-deep);
+    }
+
+    /* ── FOOTER ── */
+    .footer { text-align:center; font-size:0.8rem; color:var(--text-soft); letter-spacing:0.06em; }
+    .footer-heart {
+      display:flex; justify-content:center; margin-bottom:8px;
+      color: var(--pink-deep);
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.16)} }
+    .footer-text {
+      display:flex; align-items:center; justify-content:center; gap:8px;
+    }
+
+    /* ════════════════════════════════════════
+       PEEKING ANIMALS (SVG icons)
+    ════════════════════════════════════════ */
+    .peeker {
+      position:fixed; z-index:50; pointer-events:none;
+      filter: drop-shadow(0 4px 10px rgba(224,92,138,0.3));
+    }
+    @keyframes peekLeft {
+      0%   { transform:translateX(-110%) rotate(-8deg); }
+      35%  { transform:translateX(0%)    rotate( 5deg); }
+      65%  { transform:translateX(0%)    rotate( 5deg); }
+      100% { transform:translateX(-110%) rotate(-8deg); }
+    }
+    @keyframes peekRight {
+      0%   { transform:translateX(110%)  rotate( 8deg); }
+      35%  { transform:translateX(0%)    rotate(-5deg); }
+      65%  { transform:translateX(0%)    rotate(-5deg); }
+      100% { transform:translateX(110%)  rotate( 8deg); }
+    }
+    @keyframes peekBottom {
+      0%   { transform:translateY(110%); }
+      35%  { transform:translateY(0%); }
+      65%  { transform:translateY(0%); }
+      100% { transform:translateY(110%); }
+    }
+    .peeker.anim-left   { animation:peekLeft   var(--dur) ease both; }
+    .peeker.anim-right  { animation:peekRight  var(--dur) ease both; }
+    .peeker.anim-bottom { animation:peekBottom var(--dur) ease both; }
+
+    /* ════════════════════════════════════════
+       MOBILE
+    ════════════════════════════════════════ */
+    @media (max-width:480px) {
+      .page { padding:40px 16px 60px; gap:40px; }
+      .hero h1 { font-size:clamp(2.2rem,10vw,3rem); }
+      .cluster-wrap { width:160px; height:160px; }
+      .lightbox { justify-content:flex-start; }
+      .lb-topbar { padding:10px 14px; }
+      .lb-close  { width:36px; height:36px; }
+      .lb-arrow  { display:none; }
+      .lb-img-wrap { flex:none; width:100%; padding:52px 12px 0; height:52vmax; max-height:52vh; }
+      .lb-img-wrap img { max-height:100%; border-radius:12px; }
+      .lb-bottom { padding:10px 14px 20px; gap:10px; }
+      .lb-rating { flex-wrap:wrap; justify-content:center; gap:6px; }
+      .lb-rating-label { width:100%; text-align:center; }
+      .lb-rating-text  { min-width:unset; text-align:center; }
+      .lb-thumb { width:44px; height:44px; border-radius:8px; }
+      .cake-card { padding:28px 16px 24px; }
+      .cake-img  { width:220px; height:220px; }
+      .letter-body { padding:22px 18px 26px; }
+      .letter-body p { font-size:0.95rem; }
+      .envelope-btn { padding:30px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════ LIGHTBOX ════════ -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+  <div class="lb-topbar">
+    <span class="lb-counter" id="lbCounter">1 / 13</span>
+    <button class="lb-close" id="lbClose" aria-label="ปิด">
+      <!-- X icon -->
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <button class="lb-arrow prev" id="lbPrev" aria-label="ก่อนหน้า">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+  <div class="lb-img-wrap"><img id="lbImg" src="" alt="รูปภาพ" /></div>
+  <button class="lb-arrow next" id="lbNext" aria-label="ถัดไป">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+  </button>
+  <div class="lb-bottom">
+    <div class="lb-rating">
+      <span class="lb-rating-label">ให้คะแนนรูปนี้</span>
+      <div class="lb-stars" id="lbStars">
+        <!-- star icons injected by JS -->
+      </div>
+      <span class="lb-rating-text" id="lbRatingText">—</span>
+    </div>
+    <div class="lb-thumbs" id="lbThumbs"></div>
+  </div>
+</div>
+
+<main class="page">
+
+  <!-- ── HERO ── -->
+  <div class="hero">
+    <div class="eyebrow">
+      <!-- sparkle -->
+      <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e05c8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      Happy Birthday
+      <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e05c8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    </div>
+    <h1>Happy Birthday<br><em>พลอย</em></h1>
+    <div class="date">
+      <!-- calendar icon -->
+      <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a06080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      October 29, 2026
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- ════════ PHOTO CLUSTER ════════ -->
+  <section class="cluster-section">
+    <p class="cluster-label">
+      <!-- image icon -->
+      <svg class="icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#a06080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+      ภาพความทรงจำ
+    </p>
+    <div class="cluster-wrap" id="clusterWrap" role="button" tabindex="0" aria-label="เปิดดูรูปภาพทั้งหมด"></div>
+    <p class="cluster-hint">
+      <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a06080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"/><path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg>
+      กดที่กลุ่มรูปเพื่อดูทั้งหมด
+    </p>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- ════════ CAKE ════════ -->
+  <div class="card cake-card">
+    <p class="cake-section-label">
+      <!-- cake icon -->
+      <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a06080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"/><path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1"/><path d="M2 21h20"/><path d="M7 8v3"/><path d="M12 8v3"/><path d="M17 8v3"/><path d="M7 4h.01"/><path d="M12 4h.01"/><path d="M17 4h.01"/></svg>
+      เป่าเทียนขอพร
+    </p>
+
+    <!-- Candles -->
+    <div class="candles-row">
+      <div class="candle">
+        <span class="flame-icon" id="f1">
+          <svg width="20" height="28" viewBox="0 0 24 36" fill="none"><path d="M12 2C12 2 6 10 6 16a6 6 0 0 0 12 0C18 10 12 2 12 2z" fill="#fb923c"/><path d="M12 8C12 8 9 14 9 17a3 3 0 0 0 6 0C15 14 12 8 12 8z" fill="#fde68a"/></svg>
+        </span>
+        <span class="candle-stick">
+          <svg width="10" height="28" viewBox="0 0 10 28"><rect x="2" y="0" width="6" height="28" rx="3" fill="#f9a8c9"/></svg>
+        </span>
+      </div>
+      <div class="candle">
+        <span class="flame-icon" id="f2">
+          <svg width="20" height="28" viewBox="0 0 24 36" fill="none"><path d="M12 2C12 2 6 10 6 16a6 6 0 0 0 12 0C18 10 12 2 12 2z" fill="#fb923c"/><path d="M12 8C12 8 9 14 9 17a3 3 0 0 0 6 0C15 14 12 8 12 8z" fill="#fde68a"/></svg>
+        </span>
+        <span class="candle-stick">
+          <svg width="10" height="28" viewBox="0 0 10 28"><rect x="2" y="0" width="6" height="28" rx="3" fill="#fbb6ce"/></svg>
+        </span>
+      </div>
+      <div class="candle">
+        <span class="flame-icon" id="f3">
+          <svg width="20" height="28" viewBox="0 0 24 36" fill="none"><path d="M12 2C12 2 6 10 6 16a6 6 0 0 0 12 0C18 10 12 2 12 2z" fill="#fb923c"/><path d="M12 8C12 8 9 14 9 17a3 3 0 0 0 6 0C15 14 12 8 12 8z" fill="#fde68a"/></svg>
+        </span>
+        <span class="candle-stick">
+          <svg width="10" height="28" viewBox="0 0 10 28"><rect x="2" y="0" width="6" height="28" rx="3" fill="#f9a8c9"/></svg>
+        </span>
+      </div>
+      <div class="candle">
+        <span class="flame-icon" id="f4">
+          <svg width="20" height="28" viewBox="0 0 24 36" fill="none"><path d="M12 2C12 2 6 10 6 16a6 6 0 0 0 12 0C18 10 12 2 12 2z" fill="#fb923c"/><path d="M12 8C12 8 9 14 9 17a3 3 0 0 0 6 0C15 14 12 8 12 8z" fill="#fde68a"/></svg>
+        </span>
+        <span class="candle-stick">
+          <svg width="10" height="28" viewBox="0 0 10 28"><rect x="2" y="0" width="6" height="28" rx="3" fill="#fbb6ce"/></svg>
+        </span>
+      </div>
+      <div class="candle">
+        <span class="flame-icon" id="f5">
+          <svg width="20" height="28" viewBox="0 0 24 36" fill="none"><path d="M12 2C12 2 6 10 6 16a6 6 0 0 0 12 0C18 10 12 2 12 2z" fill="#fb923c"/><path d="M12 8C12 8 9 14 9 17a3 3 0 0 0 6 0C15 14 12 8 12 8z" fill="#fde68a"/></svg>
+        </span>
+        <span class="candle-stick">
+          <svg width="10" height="28" viewBox="0 0 10 28"><rect x="2" y="0" width="6" height="28" rx="3" fill="#f9a8c9"/></svg>
+        </span>
+      </div>
+    </div>
+
+    <img class="cake-img" id="cakeBtn" src="cake/ดาวน์โหลด-Photoroom.png" alt="เค้กวันเกิด" role="button" tabindex="0" />
+
+    <p class="blow-hint" id="blowHint">
+      <svg class="icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#a06080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8a5 5 0 0 0-10 0c0 6 10 13 10 13"/><path d="M9 8h.01"/></svg>
+      กดที่เค้กเพื่อเป่าเทียน
+    </p>
+    <p class="wish-msg" id="wishMsg">
+      <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e05c8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      คำอธิษฐานของพลอยเป็นจริงทุกข้อนะ!
+      <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e05c8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    </p>
+  </div>
+
+  <!-- ════════ ENVELOPE ════════ -->
+  <div class="card envelope-card">
+    <button class="envelope-btn" id="envBtn" aria-expanded="false">
+      <span class="envelope-icon-wrap" id="envIcon">
+        <!-- mail icon -->
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+      </span>
+      <span class="envelope-label" id="envLabel">กดเพื่อเปิดจดหมาย</span>
+    </button>
+    <div class="letter-body" id="letterBody">
+      <div class="letter-from">
+        <svg class="icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#f9a8c9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        จดหมายถึงพลอย
+      </div>
+      <p id="tl1"></p><p id="tl2"></p><p id="tl3"></p><p id="tl4"></p>
+      <div class="letter-sig">
+        ด้วยรักทั้งหัวใจ
+        <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="#e05c8a" stroke="#e05c8a" stroke-width="1"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <div class="footer">
+    <div class="footer-heart">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="#e05c8a" stroke="#e05c8a" stroke-width="1"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    </div>
+    <div class="footer-text">
+      <svg class="icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#a06080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      Happy Birthday พลอย · October 29, 2026
+      <svg class="icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#a06080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    </div>
+  </div>
+
+</main>
+
+<script>
+/* ── PHOTOS ── */
+const PHOTOS = [
+  'photo/1298ffea-0e62-4f68-9d42-70114b7fc1cf.jpg',
+  'photo/1a34f971-5a89-4845-ad53-204820e5cfb6.jpg',
+  'photo/2570edeb-a8ea-4709-8c8d-fb4f62728c43.jpg',
+  'photo/3ba825cd-22bb-4334-8e00-aca45e972206.jpg',
+  'photo/40fa4b6a-71e7-4a0b-a566-50f2f8e34cd2.jpg',
+  'photo/47ab0c29-c2c6-4c76-9f2d-e593e7ac86e1.jpg',
+  'photo/49e1670d-108d-4338-93a9-73ef58a68e00.jpg',
+  'photo/538e9557-fca0-403a-b3f1-18d6e89b9202.jpg',
+  'photo/81e69c36-f3ae-499f-9a19-9be0abe0fd21.jpg',
+  'photo/b5e70928-072d-405e-a723-62fc7fe1aed8.jpg',
+  'photo/bdee3af6-d2aa-4e79-9356-cefdae5fd530.jpg',
+  'photo/e2ba4990-5caa-4c4a-b47d-1497f45d643a.jpg',
+  'photo/eaa2e5fb-b0cf-4bec-be89-43044ee1e72a.jpg',
+];
+const ratings = new Array(PHOTOS.length).fill(0);
+
+/* ── CLUSTER ── */
+const clusterWrap = document.getElementById('clusterWrap');
+function buildCluster() {
+  clusterWrap.innerHTML = '';
+  [0,3,6,9,12].forEach((photoIdx, stackPos) => {
+    const div = document.createElement('div');
+    div.className = 'cluster-card' + (stackPos === 4 ? ' top' : '');
+    const img = document.createElement('img');
+    img.src = PHOTOS[Math.min(photoIdx, PHOTOS.length-1)];
+    img.alt = 'ภาพ ' + (photoIdx+1);
+    img.draggable = false;
+    div.appendChild(img);
+    clusterWrap.appendChild(div);
+  });
+}
+buildCluster();
+clusterWrap.addEventListener('click', () => openLightbox(0));
+clusterWrap.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' ') openLightbox(0); });
+let clusterSpread = false;
+clusterWrap.addEventListener('touchstart', e => {
+  e.preventDefault();
+  if (!clusterSpread) { clusterSpread=true; clusterWrap.classList.add('spread'); }
+  else openLightbox(0);
+}, { passive: false });
+
+/* ── LIGHTBOX ── */
+const lightbox     = document.getElementById('lightbox');
+const lbImg        = document.getElementById('lbImg');
+const lbCounter    = document.getElementById('lbCounter');
+const lbClose      = document.getElementById('lbClose');
+const lbPrev       = document.getElementById('lbPrev');
+const lbNext       = document.getElementById('lbNext');
+const lbStarsEl    = document.getElementById('lbStars');
+const lbRatingText = document.getElementById('lbRatingText');
+const lbThumbsEl   = document.getElementById('lbThumbs');
+let lbIdx = 0;
+
+const ratingLabels = ['—','น่ารัก','น่ารักมาก','น่ารักมากๆ','น่ารักสุดๆ','สวยที่สุดในโลก'];
+
+// Build star icons
+const STAR_SVG = `<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
+for (let v=1; v<=5; v++) {
+  const s = document.createElement('span');
+  s.className = 'lb-star'; s.dataset.v = v; s.innerHTML = STAR_SVG;
+  s.addEventListener('click', () => { ratings[lbIdx]=v; renderLbStars(); });
+  s.addEventListener('mouseover', () => {
+    Array.from(lbStarsEl.children).forEach(x => x.classList.toggle('lit', parseInt(x.dataset.v)<=v));
+  });
+  s.addEventListener('mouseout', renderLbStars);
+  lbStarsEl.appendChild(s);
+}
+const starEls = Array.from(lbStarsEl.children);
+
+function renderLbStars() {
+  const r = ratings[lbIdx];
+  starEls.forEach(s => s.classList.toggle('lit', parseInt(s.dataset.v)<=r));
+  lbRatingText.textContent = ratingLabels[r];
+}
+function buildLbThumbs() {
+  lbThumbsEl.innerHTML='';
+  PHOTOS.forEach((src,i)=>{
+    const div=document.createElement('div');
+    div.className='lb-thumb'+(i===lbIdx?' active':'');
+    const img=document.createElement('img'); img.src=src; img.alt='';
+    div.appendChild(img);
+    div.addEventListener('click',()=>goTo(i));
+    lbThumbsEl.appendChild(div);
+  });
+  const at=lbThumbsEl.children[lbIdx];
+  if(at) at.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});
+}
+function renderLb() {
+  lbImg.style.animation='none'; void lbImg.offsetWidth; lbImg.style.animation='';
+  lbImg.src=PHOTOS[lbIdx];
+  lbCounter.textContent=(lbIdx+1)+' / '+PHOTOS.length;
+  renderLbStars(); buildLbThumbs();
+}
+function goTo(idx){ lbIdx=(idx+PHOTOS.length)%PHOTOS.length; renderLb(); }
+function openLightbox(idx){ lbIdx=idx; renderLb(); lightbox.classList.add('show'); document.body.style.overflow='hidden'; }
+function closeLightbox(){ lightbox.classList.remove('show'); document.body.style.overflow=''; }
+lbClose.addEventListener('click', closeLightbox);
+lbPrev.addEventListener('click', ()=>goTo(lbIdx-1));
+lbNext.addEventListener('click', ()=>goTo(lbIdx+1));
+lightbox.addEventListener('click', e=>{ if(e.target===lightbox) closeLightbox(); });
+document.addEventListener('keydown', e=>{
+  if(!lightbox.classList.contains('show')) return;
+  if(e.key==='Escape') closeLightbox();
+  if(e.key==='ArrowLeft')  goTo(lbIdx-1);
+  if(e.key==='ArrowRight') goTo(lbIdx+1);
+});
+let tX=0,tY=0;
+lightbox.addEventListener('touchstart',e=>{tX=e.touches[0].clientX;tY=e.touches[0].clientY;},{passive:true});
+lightbox.addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-tX, dy=e.changedTouches[0].clientY-tY;
+  if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>40) goTo(lbIdx+(dx<0?1:-1));
+});
+
+/* ── CANDLES ── */
+const flames  = [1,2,3,4,5].map(n=>document.getElementById('f'+n));
+const cakeBtn = document.getElementById('cakeBtn');
+const blowHint= document.getElementById('blowHint');
+const wishMsg = document.getElementById('wishMsg');
+let blown=false;
+function blowCandles(){
+  if(blown) return; blown=true;
+  flames.forEach((f,i)=>setTimeout(()=>{
+    f.classList.add('out');
+    f.innerHTML=`<svg width="20" height="28" viewBox="0 0 24 28" fill="none"><path d="M12 4 Q14 10 12 18 Q10 10 12 4Z" fill="#cbd5e1" opacity="0.6"/></svg>`;
+  },i*160));
+  setTimeout(()=>{ blowHint.classList.add('gone'); wishMsg.classList.add('show'); },1000);
+}
+cakeBtn.addEventListener('click', blowCandles);
+cakeBtn.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' ') blowCandles(); });
+
+/* ── ENVELOPE ── */
+const envBtn    = document.getElementById('envBtn');
+const envIcon   = document.getElementById('envIcon');
+const envLabel  = document.getElementById('envLabel');
+const letterBody= document.getElementById('letterBody');
+let letterOpened=false;
+const letterLines=[
+  'เบ้บ วันเกิดปีนี้เค้าอยากบอกว่า เค้ารักเบ้บมากนะ มากกว่าที่บอกได้ด้วยคำพูด ทุกวันที่ได้อยู่ด้วยกันมันมีความหมายสำหรับเค้าเสมอ',
+  'เค้าอยากอยู่ข้างๆ เบ้บไปนานๆ ไม่ใช่แค่วันนี้หรือพรุ่งนี้ แต่อยากอยู่ด้วยกันไปจนถึงวันแต่งงานเลย เพราะเค้ามองไม่เห็นอนาคตที่ไม่มีเบ้บอยู่ด้วย',
+  'ไม่ว่าจะเจออุปสรรคอะไร เค้าไม่อยากให้เราเลิกกัน ขอให้เราผ่านมันด้วยกันทุกครั้ง เพราะสิ่งที่ดีมักไม่ได้มาง่ายๆ และความสัมพันธ์ของเราก็มีค่าเกินกว่าจะปล่อยให้หลุดมือไป',
+  'ขอให้เบ้บมีความสุขมากๆ ในวันเกิดนี้นะ เบ้บสมควรได้รับทุกสิ่งที่ดีที่สุด — รักเบ้บเสมอ 🌸'
+];
+function typeWriter(el,text,speed,cb){
+  let i=0; el.textContent='';
+  (function tick(){ if(i<text.length){el.textContent+=text[i++];setTimeout(tick,speed);}else if(cb)cb(); })();
+}
+envBtn.addEventListener('click',()=>{
+  if(letterOpened) return; letterOpened=true;
+  envIcon.innerHTML=`<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#e05c8a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/><line x1="2" y1="20" x2="9" y2="13"/><line x1="22" y1="20" x2="15" y2="13"/></svg>`;
+  envLabel.textContent='จดหมายจากฉัน';
+  envBtn.style.cursor='default';
+  letterBody.classList.add('open');
+  envBtn.setAttribute('aria-expanded','true');
+  const els=['tl1','tl2','tl3','tl4'].map(id=>document.getElementById(id));
+  typeWriter(els[0],letterLines[0],26,()=>
+    setTimeout(()=>typeWriter(els[1],letterLines[1],26,()=>
+      setTimeout(()=>typeWriter(els[2],letterLines[2],26,()=>
+        setTimeout(()=>typeWriter(els[3],letterLines[3],26),300)
+      ),300)
+    ),400)
+  );
+});
+
+/* ── PEEKING ANIMALS (SVG icons) ── */
+(function(){
+  // รูปจริงจาก her dog/ (Photoroom — bg ใส)
+  const ANIMAL_SRCS = [
+    'her dog/009fb0b1-5e5d-40b3-be59-483168a1c2b7-Photoroom.png',
+    'her dog/08782531-fc95-43f5-b813-8dca0afbd779-Photoroom.png',
+    'her dog/e30a9728-2420-42d3-a45f-106439cce223-Photoroom.png',
+    'her dog/fba884e3-914d-4064-a616-5d092e1f0a7a-Photoroom.png',
+  ];
+  const sides=['left','right','bottom'];
+  const pool=[];
+  for(let i=0;i<3;i++){
+    const el=document.createElement('span');
+    el.className='peeker';
+    document.body.appendChild(el);
+    pool.push(el);
+  }
+  let poolIdx=0;
+  function spawn(){
+    const el=pool[poolIdx++%pool.length];
+    el.className='peeker';
+    const side=sides[Math.floor(Math.random()*sides.length)];
+    const dur=(Math.random()*1.8+2.4).toFixed(2)+'s';
+    // ใส่รูปจริงจาก her dog/
+    const imgEl = document.createElement('img');
+    imgEl.src = ANIMAL_SRCS[Math.floor(Math.random() * ANIMAL_SRCS.length)];
+    imgEl.alt = 'น้องหมา';
+    const sizes = [60, 72, 90, 110, 130, 90, 72, 150];
+    const sz = sizes[Math.floor(Math.random() * sizes.length)];
+    imgEl.style.cssText = `width:${sz}px;height:${sz}px;object-fit:contain;display:block;`;
+    el.innerHTML = '';
+    el.appendChild(imgEl);
+    el.style.setProperty('--dur',dur);
+    if(side==='left'||side==='right'){
+      el.style.top=(Math.random()*65+10)+'vh'; el.style.bottom='';
+      el.style.left=side==='left'?'0':''; el.style.right=side==='right'?'0':'';
+    } else {
+      el.style.left=(Math.random()*70+10)+'vw'; el.style.right='';
+      el.style.top=''; el.style.bottom='0';
+    }
+    void el.offsetWidth;
+    el.classList.add('anim-'+side);
+    setTimeout(spawn,Math.random()*3500+2000);
+  }
+  setTimeout(spawn,1200);
+  setTimeout(spawn,2800);
+  setTimeout(spawn,4500);
+})();
+</script>
+</body>
+</html>
